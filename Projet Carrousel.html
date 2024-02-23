@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carousel avec Paragraphes</title>
+<style>
+/* Styles généraux */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('background1.jpg');
+}
+
+/* Styles du carousel */
+.carousel {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    animation: backgroundAnimation 30s linear infinite;
+    overflow: hidden; /* Ajout de l'overflow */
+}
+@keyframes backgroundAnimation {
+0%, 100% {
+    background-image: url('background1.jpg'); /* Première image de fond */
+}
+50% {
+    background-image: url('background2.jpg'); /* Deuxième image de fond */
+}
+}
+
+/* Styles des diapositives */
+.slide {
+    width: 100%;
+    display: none;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ajout de l'overflow */
+}
+.slide.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+.slide img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.slide p {
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+/* Styles des flèches */
+.arrows {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px; 
+}
+.arrows .prev,
+.arrows .next {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.arrows .prev:hover,
+.arrows .next:hover {
+    transform: scale(1.2);
+}
+
+/* Media Query pour le carousel responsive */
+@media screen and (max-width: 768px) {
+    .carousel {
+        width: 90%;
+    }
+    .slide img {
+        max-width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Contenu du carousel -->
+    <div class="carousel">
+        <div class="slide active">
+            <img src="wafaa.jpg" alt="Slide 1" width="40%" height="100%">
+            <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</p>
+        </div>
+        <div class="slide">
+            <img src="figma1.png" alt="Slide 2" width="40%" height="100%">
+            <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</p>
+        </div>
+        <div class="slide">
+            <img src="responsive.png" alt="Slide 3" width="40%" height="100%">
+            <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.</p>
+        </div>
+        <div class="slide">
+            <img src="github2.png" alt="Slide 4" width="40%" height="100%">
+            <p>J'ai acquis des compétences essentielles en utilisant GitHub comme un outil de gestion de versions, <br>ce qui m'a permis de collaborer efficacement sur des projets.</p>
+        </div>
+        <!-- Flèches de navigation -->
+        <div class="arrows">
+            <span class="prev">&#10094;</span>
+            <span class="next">&#10095;</span>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const slides = carousel.querySelectorAll('.slide');
+        let currentIndex = 0; //Cette variable est utilisée pour suivre l'index de la diapositive actuellement affichée dans le carousel.
+
+        //vérifie si l'index de la diapositive (i) est égal à l'index passé en paramètre (index).
+        function showSlide(index) {
+            slides.forEach((slide, i) => { 
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        document.querySelector('.prev').addEventListener('click', prevSlide);
+        document.querySelector('.next').addEventListener('click', nextSlide);
+
+        setInterval(nextSlide, 1500);
+
+        showSlide(currentIndex);
+        
+        // Fonction pour rendre le carousel responsive via JavaScript
+        
+        function adjustCarousel() {
+            const windowWidth = window.innerWidth;
+            if (windowWidth <= 768) {
+                carousel.style.width = '90%';
+                slides.forEach(slide => {
+                    const image = slide.querySelector('img');
+                    if (image) {
+                        image.style.maxWidth = '100%';
+                    }
+                });
+            } else {
+                carousel.style.width = '80%';
+                slides.forEach(slide => {
+                    const image = slide.querySelector('img');
+                    if (image) {
+                        image.style.maxWidth = '400px';
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('resize', adjustCarousel);
+        adjustCarousel(); // Appel initial pour ajuster le carousel lors du chargement de la page
+        
+    </script>
+</body>
+</html>
